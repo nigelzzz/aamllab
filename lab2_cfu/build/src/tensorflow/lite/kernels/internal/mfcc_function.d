@@ -1,0 +1,19 @@
+src/tensorflow/lite/kernels/internal/mfcc_function.o: \
+ src/tensorflow/lite/kernels/internal/mfcc_function.cc \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/math.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/sys/cdefs.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/machine/_default_types.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/sys/features.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/soc/build/digilent_nexys4ddr.lab2_cfu/software/libc/picolibc.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/ieeefp.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/_ansi.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/newlib.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/sys/config.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/machine/ieeefp.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/stdint.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/sys/_intsup.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/sys/_stdint.h \
+ /home/nigel22/opensource/aaml_lab/CFU-Playground/third_party/python/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include/machine/math.h \
+ src/tensorflow/lite/kernels/internal/mfcc.h \
+ src/tensorflow/lite/kernels/internal/mfcc_dct.h \
+ src/tensorflow/lite/kernels/internal/mfcc_mel_filterbank.h

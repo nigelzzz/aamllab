@@ -23,5 +23,6 @@
 // the Makefile.
 uint32_t software_cfu(int funct3, int funct7, uint32_t rs1, uint32_t rs2)
 {
-  return (funct3 & 1) ? rs2 : rs1;
+    
+  //return (funct3 & 1) ? rs2 : rs1;
 }

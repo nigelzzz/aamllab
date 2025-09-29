@@ -26,27 +26,69 @@ module Cfu (
   input               reset,
   input               clk
 );
-   reg [8:0] InputOffset, FilterOffset;
+    // Decode function ID.
+    wire [6:0] funct7 = cmd_payload_function_id[9:3];
+ // Registers holding offsets supplied from software.
+    reg signed [15:0] InputOffset;
+    reg signed [15:0] FilterOffset;
+    // Sign-extend packed byte lanes and add offsets.
+    wire signed [15:0] input_lane0 = $signed({{8{cmd_payload_inputs_0[7]}}, cmd_payload_inputs_0[7:0]}) + InputOffset;
+    wire signed [15:0] input_lane1 = $signed({{8{cmd_payload_inputs_0[15]}}, cmd_payload_inputs_0[15:8]}) + InputOffset;
+    wire signed [15:0] input_lane2 = $signed({{8{cmd_payload_inputs_0[23]}}, cmd_payload_inputs_0[23:16]}) + InputOffset;
+    wire signed [15:0] input_lane3 = $signed({{8{cmd_payload_inputs_0[31]}}, cmd_payload_inputs_0[31:24]}) + InputOffset;
 
-    // SIMD multiply step:
-    wire signed [15:0] prod_0, prod_1, prod_2, prod_3;
-    assign prod_0 = 
-    assign prod_1 = 
-    assign prod_2 = 
-    assign prod_3 = 
+    wire signed [15:0] filter_lane0 = $signed({{8{cmd_payload_inputs_1[7]}}, cmd_payload_inputs_1[7:0]}) + FilterOffset;
+    wire signed [15:0] filter_lane1 = $signed({{8{cmd_payload_inputs_1[15]}}, cmd_payload_inputs_1[15:8]}) + FilterOffset;
+    wire signed [15:0] filter_lane2 = $signed({{8{cmd_payload_inputs_1[23]}}, cmd_payload_inputs_1[23:16]}) + FilterOffset;
+    wire signed [15:0] filter_lane3 = $signed({{8{cmd_payload_inputs_1[31]}}, cmd_payload_inputs_1[31:24]}) + FilterOffset;
 
-    wire signed [31:0] sum_prods;
-    assign sum_prods = prod_0 + prod_1 + prod_2 + prod_3;
+    // SIMD multiply step: four MACs per instruction.
+    wire signed [31:0] prod_0 = input_lane0 * filter_lane0;
+    wire signed [31:0] prod_1 = input_lane1 * filter_lane1;
+    wire signed [31:0] prod_2 = input_lane2 * filter_lane2;
+    wire signed [31:0] prod_3 = input_lane3 * filter_lane3;
 
-    // Only not ready for a command when we have a response.
+    wire signed [31:0] sum_prods = prod_0 + prod_1 + prod_2 + prod_3;
+
+    // Only not ready for a command when we have a response pending.
     assign cmd_ready = ~rsp_valid;
 
-    always @(posedge clk) begin
-        if () begin
+    always @(posedge clk) begin 
+        if (reset) begin
+            rsp_valid <= 1'b0;
+            rsp_payload_outputs_0 <= 32'd0;
+            InputOffset <= 16'sd0;
+            FilterOffset <= 16'sd0;
+        end else begin
+            // Clear response once the host accepts it.
+            if (rsp_valid && rsp_ready) begin
+                rsp_valid <= 1'b0;
+            end
 
+            if (cmd_valid && cmd_ready) begin
+                case (funct7)
+                    7'd0: begin
+                        rsp_payload_outputs_0 <= sum_prods;
+                        rsp_valid <= 1'b1;
+                    end
+                    7'd1: begin
+                        InputOffset <= cmd_payload_inputs_0[15:0];
+                        rsp_payload_outputs_0 <= 32'd0;
+                        rsp_valid <= 1'b1;
+                    end
+                    7'd2: begin
+                        FilterOffset <= cmd_payload_inputs_0[15:0];
+                        rsp_payload_outputs_0 <= 32'd0;
+                        rsp_valid <= 1'b1;
+                    end
+                    default: begin
+                        rsp_payload_outputs_0 <= 32'd0;
+                        rsp_valid <= 1'b1;
+                    end
+                endcase
+            end
         end
-
-    end	          
+    end
 endmodule
 
 
